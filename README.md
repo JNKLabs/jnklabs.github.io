@@ -3,7 +3,7 @@
 The JNK Labs website (games & apps): home page, privacy policy, contact form and `app-ads.txt` (for AdMob).
 
 ## Before uploading, replace these
-1. `YOUR-EMAIL@example.com` (in `index.html`, including the JSON-LD block and the form's `action`, and in `privacy.html`): your contact email.
+1. Contact email: `jnklabssupport@gmail.com` (in `index.html` JSON-LD, the contact form's FormSubmit `action`, and `privacy.html`).
    The contact form uses FormSubmit (free): send yourself one test message after publishing and click the confirmation link it emails you.
 2. `app-ads.txt` already has the AdMob publisher ID (pub-8661978230190789); check it matches AdMob → Apps → app-ads.txt
    (AdMob → Apps → View all apps → app-ads.txt → copy the line AdMob shows).
