@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JNK Labs – Mobile Games & Apps | Ring Unlock, Luttapi & Ghosts, SYNC</title>
-<meta name="description" content="JNK Labs makes fun mobile games and useful apps for Android: Ring Unlock (ring puzzle game), Luttapi & Ghosts (action game) and SYNC: Anti-Scroll AI News.">
+<title>JNK Labs – Mobile Games & Apps | Paint the Art, Ring Unlock, Luttapi & Ghosts, SYNC</title>
+<meta name="description" content="JNK Labs makes fun mobile games and useful apps for Android: Paint the Art (relaxing color sort puzzle), Ring Unlock (ring puzzle game), Luttapi & Ghosts (action game) and SYNC: Anti-Scroll AI News.">
 <meta name="robots" content="index, follow">
 <meta name="author" content="JNK Labs">
 <meta name="theme-color" content="#ffe2ba">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="JNK Labs">
 <meta property="og:title" content="JNK Labs – Mobile Games & Apps">
-<meta property="og:description" content="Fun mobile games and useful apps for Android: Ring Unlock, Luttapi & Ghosts and SYNC.">
+<meta property="og:description" content="Fun mobile games and useful apps for Android: Paint the Art, Ring Unlock, Luttapi & Ghosts and SYNC.">
 <meta property="og:url" content="https://jnklabs.github.io/">
 <meta property="og:image" content="https://jnklabs.github.io/img/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -73,6 +73,26 @@
           "position": 1,
           "item": {
             "@type": "MobileApplication",
+            "name": "Paint the Art: Color Sort",
+            "operatingSystem": "Android",
+            "applicationCategory": "GameApplication",
+            "description": "A relaxing color sort puzzle: every tube you finish pours its paint into a hidden painting. 100 paintings in 10 albums.",
+            "image": "https://jnklabs.github.io/img/painttheart-icon.png",
+            "author": {
+              "@id": "https://jnklabs.github.io/#org"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "MobileApplication",
             "name": "Ring Unlock",
             "operatingSystem": "Android",
             "applicationCategory": "GameApplication",
@@ -90,7 +110,7 @@
         },
         {
           "@type": "ListItem",
-          "position": 2,
+          "position": 3,
           "item": {
             "@type": "MobileApplication",
             "name": "Luttapi & Ghosts",
@@ -110,7 +130,7 @@
         },
         {
           "@type": "ListItem",
-          "position": 3,
+          "position": 4,
           "item": {
             "@type": "MobileApplication",
             "name": "SYNC: Anti-Scroll AI News",
@@ -223,6 +243,14 @@
     <p class="sub">Free on Google Play.</p>
     <div class="grid">
       <article class="card">
+        <img class="icon" src="img/painttheart-icon.png" alt="Paint the Art app icon" width="112" height="112" loading="lazy">
+        <span class="kind">Puzzle game</span>
+        <h3>Paint the Art: Color Sort</h3>
+        <p>A calm color sort puzzle: pour the water until every tube holds one color, and each finished tube paints a hidden picture. 100 paintings to bring to life.</p>
+        <!-- When it's live: href="https://play.google.com/store/apps/details?id=com.jnklabs.paintsort" and text "Get it on Google Play" -->
+        <a class="btn soon" href="#contact">Coming soon</a>
+      </article>
+      <article class="card">
         <img class="icon" src="img/ringunlock-icon.png" alt="Ring Unlock app icon" width="112" height="112" loading="lazy">
         <span class="kind">Puzzle game</span>
         <h3>Ring Unlock</h3>
@@ -263,6 +291,7 @@
         <div>
           <label for="app">Game or app</label>
           <select id="app" name="app">
+            <option>Paint the Art</option>
             <option>Ring Unlock</option>
             <option>Luttapi &amp; Ghosts</option>
             <option>SYNC: Anti-Scroll AI News</option>
