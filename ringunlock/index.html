@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ring Unlock – JNK Labs</title>
+<meta name="description" content="Ring Unlock: Twist Puzzle. Twist the rings, slide the clips off and clear the board. Free on Google Play.">
+<meta property="og:title" content="Ring Unlock: Twist Puzzle">
+<meta property="og:description" content="Twist the rings, slide the clips off and clear the board. Free on Google Play.">
+<meta property="og:image" content="https://jnklabs.github.io/img/og-image.png">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../img/ringunlock-icon.png">
+<noscript><meta http-equiv="refresh" content="0; url=https://play.google.com/store/apps/details?id=com.jnklabs.ringunlock&amp;referrer=utm_source%3Dwebsite"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:'Fredoka',system-ui,sans-serif; color:#7b4a2a;
+         background:linear-gradient(180deg,#ffe2ba,#f6e2c4); padding: 16px; box-sizing: border-box; }
+  .card { background:#fffaf2; border:4px solid #fff; border-radius:26px; box-shadow:0 6px 0 #e2cdb0; padding: 28px; max-width: 420px; width: 100%; text-align:center; }
+  img { width: 112px; height: 112px; border-radius: 26px; box-shadow: 0 4px 10px rgba(0,0,0,.15); }
+  h1 { font-family:'Lilita One',sans-serif; font-size: 36px; margin: 14px 0 6px; }
+  p { color:#8c6440; line-height:1.5; margin: 0 0 16px; }
+  a.btn { display:inline-block; padding: 14px 26px; border-radius:999px; background:#5cc93c; color:#fff; text-decoration:none;
+          font-weight:700; font-size: 18px; border:3px solid #fff; box-shadow:0 5px 0 #3b9a22; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <img src="../img/ringunlock-icon.png" alt="Ring Unlock app icon">
+    <h1>Ring Unlock</h1>
+    <p>Opening Google Play…</p>
+    <a class="btn" id="go" href="https://play.google.com/store/apps/details?id=com.jnklabs.ringunlock">Get it on Google Play</a>
+  </main>
+<script>
+  // Short link for social posts and ads: jnklabs.github.io/ringunlock/?s=instagram&c=reel
+  // s / c become utm_source / utm_campaign in Play Console (Acquisition > Install referrers).
+  var q = new URLSearchParams(location.search);
+  var clean = function (v, d) { return (v || d).replace(/[^\w-]/g, '').slice(0, 40) || d; };
+  var ref = 'utm_source=' + clean(q.get('s'), 'instagram') + '&utm_medium=social&utm_campaign=' + clean(q.get('c'), 'ringunlock');
+  var id = 'com.jnklabs.ringunlock';
+  var web = 'https://play.google.com/store/apps/details?id=' + id + '&referrer=' + encodeURIComponent(ref);
+  document.getElementById('go').href = web;
+  if (/android/i.test(navigator.userAgent)) {
+    // Open the Play Store app directly (works from Instagram's in-app browser), fall back to the web page.
+    location.href = 'market://details?id=' + id + '&referrer=' + encodeURIComponent(ref);
+    setTimeout(function () { location.replace(web); }, 1500);
+  } else {
+    location.replace(web);
+  }
+</script>
+</body>
+</html>
