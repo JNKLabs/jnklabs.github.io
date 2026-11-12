@@ -178,122 +178,278 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lilita+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lilita+One&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root { --brown:#7b4a2a; --soft:#8c6440; --muted:#a87b55; --card:#fffaf2; --lip:#e2cdb0; --green:#5cc93c; --green-d:#3b9a22;
-          --orange:#ff8f3a; --orange-d:#d26a12; --blue:#3e9bef; --purple:#9c6bf2; }
+          --orange:#ff8f3a; --orange-d:#d26a12; --yellow:#ffc933; --pink:#ff6f91; --blue:#3e9bef; --purple:#9c6bf2;
+          --night:#0b0c0e; --panel:#121318; --amber:#e8a657; --line:#2e3138; --paper:#e6e2da; }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin:0; font-family:'Fredoka',system-ui,sans-serif; color:var(--brown);
-         background:linear-gradient(180deg,#ffe2ba 0%,#fcf2e2 35%,#f6e2c4 100%) fixed; }
+  body { margin:0; font-family:'Fredoka',system-ui,sans-serif; color:var(--brown); background:#fcf2e2; overflow-x: hidden; }
   a { color: var(--brown); }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
-  nav { position: sticky; top: 0; z-index: 10; background: rgba(255,240,220,.85); backdrop-filter: blur(8px); border-bottom: 2px solid #fff; }
-  nav .wrap { display:flex; align-items:center; justify-content:space-between; gap: 12px; padding-top: 10px; padding-bottom: 10px; flex-wrap: wrap; }
-  .logo { font-family:'Lilita One',sans-serif; font-size: 28px; text-decoration:none; color:#fff; -webkit-text-stroke: 2px var(--brown); paint-order: stroke fill; }
-  .logo span { color:#ffc933; }
-  nav ul { list-style:none; display:flex; gap: 18px; margin:0; padding:0; flex-wrap: wrap; }
-  nav ul a { text-decoration:none; font-weight:600; }
-  nav ul a:hover { text-decoration: underline; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 
-  header.hero { text-align:center; padding: 48px 0 24px; }
-  .brand { font-family:'Lilita One',sans-serif; font-size: clamp(44px, 8vw, 76px); line-height:1.05; margin:0; letter-spacing:1px;
-           color:#fff; -webkit-text-stroke: 3px var(--brown); paint-order: stroke fill; text-shadow: 0 6px 0 rgba(123,74,42,.3); }
-  .brand span { color:#ffc933; }
-  .lead { font-size: clamp(18px, 2.4vw, 22px); color: var(--soft); max-width: 680px; margin: 14px auto 22px; line-height: 1.5; }
-  .ctas { display:flex; gap: 14px; justify-content:center; flex-wrap: wrap; }
+  /* Soft colour blobs drifting behind everything */
+  .sky { position: fixed; inset: 0; z-index: -1; overflow: hidden;
+         background: radial-gradient(circle at 1px 1px, rgba(123,74,42,.07) 1px, transparent 0) 0 0/22px 22px,
+                     linear-gradient(180deg,#ffe2ba 0%,#fcf2e2 40%,#f6e2c4 100%); }
+  .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; animation: drift 22s ease-in-out infinite alternate; }
+  .blob.a { width: 420px; height: 420px; background: #ffd27a; left: -120px; top: -80px; }
+  .blob.b { width: 360px; height: 360px; background: #ffb3c4; right: -100px; top: 30%; animation-duration: 26s; }
+  .blob.c { width: 380px; height: 380px; background: #b9e8a8; left: 20%; bottom: -160px; animation-duration: 30s; }
+  @keyframes drift { to { transform: translate(60px, 40px) scale(1.12); } }
+
+  nav { position: sticky; position: -webkit-sticky; top: 0; z-index: 20; background: rgba(255,240,220,.72); backdrop-filter: blur(10px); border-bottom: 2px solid rgba(255,255,255,.8); }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; gap: 12px; padding-top: 10px; padding-bottom: 10px; flex-wrap: wrap; }
+  .logo { font-family:'Lilita One',sans-serif; font-size: 28px; text-decoration:none; color:#fff; -webkit-text-stroke: 2px var(--brown); paint-order: stroke fill;
+          display:inline-block; transition: transform .25s cubic-bezier(.3,1.6,.5,1); }
+  .logo:hover { transform: rotate(-4deg) scale(1.06); }
+  .logo span { color: var(--yellow); }
+  nav ul { list-style:none; display:flex; gap: 6px; margin:0; padding:0; flex-wrap: wrap; }
+  nav ul a { text-decoration:none; font-weight:600; padding: 8px 14px; border-radius: 999px; transition: background .2s; display:inline-block; }
+  nav ul a:hover { background: rgba(255,255,255,.8); }
+
+  /* Hero */
+  header.hero { position: relative; text-align:center; padding: 70px 0 56px; }
+  .brand { font-family:'Lilita One',sans-serif; font-size: clamp(56px, 11vw, 112px); line-height:1; margin:0; letter-spacing:2px;
+           color:#fff; -webkit-text-stroke: 4px var(--brown); paint-order: stroke fill; text-shadow: 0 8px 0 rgba(123,74,42,.25); }
+  .brand .ch { display:inline-block; animation: pop .7s cubic-bezier(.3,1.7,.5,1) both; animation-delay: calc(var(--i) * 70ms + 100ms); }
+  .brand .ch.y { color: var(--yellow); }
+  .brand .ch { cursor: pointer; }
+  .brand .ch:hover { animation: wiggle .5s ease; }
+  .brand .gap { display:inline-block; width: .3em; }
+  @keyframes pop { from { transform: translateY(40px) scale(.3) rotate(-12deg); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes wiggle { 0%,100% { transform: none; } 30% { transform: rotate(-10deg) translateY(-8px); } 60% { transform: rotate(8deg); } }
+  .lead { font-size: clamp(18px, 2.4vw, 23px); color: var(--soft); max-width: 640px; margin: 22px auto 28px; line-height: 1.5;
+          animation: rise .8s .7s ease both; }
+  .lead b { color: var(--brown); }
+  .ctas { display:flex; gap: 14px; justify-content:center; flex-wrap: wrap; animation: rise .8s .85s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+  /* Game icons floating around the title */
+  .floaters { position: absolute; inset: 0; pointer-events: none; }
+  .floater { position: absolute; width: var(--s); height: var(--s); left: var(--x); top: var(--y); }
+  .floater img { width: 100%; height: 100%; border-radius: 26%; border: 4px solid #fff; object-fit: cover;
+                 box-shadow: 0 10px 20px rgba(138,90,48,.25); animation: bob var(--d) ease-in-out infinite alternate; transform: rotate(var(--r)); }
+  @keyframes bob { from { transform: translateY(-10px) rotate(var(--r)); } to { transform: translateY(12px) rotate(calc(var(--r) * -1)); } }
+  .sparkle { position:absolute; width: 14px; height: 14px; background: var(--yellow); clip-path: polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);
+             animation: twinkle 2.4s ease-in-out infinite; }
+  @keyframes twinkle { 0%,100% { transform: scale(.4) rotate(0); opacity: .3; } 50% { transform: scale(1.2) rotate(45deg); opacity: 1; } }
 
   .btn { display:inline-block; padding: 13px 24px; border-radius: 999px; background: var(--green); color:#fff; text-decoration:none; font-weight:700;
-         border: 3px solid #fff; box-shadow: 0 5px 0 var(--green-d); font-family: inherit; font-size: 17px; cursor: pointer; }
-  .btn:hover { filter: brightness(1.05); }
+         border: 3px solid #fff; box-shadow: 0 5px 0 var(--green-d); font-family: inherit; font-size: 17px; cursor: pointer;
+         transition: transform .15s, box-shadow .15s, filter .15s; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--green-d); filter: brightness(1.05); }
+  .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--green-d); }
   .btn.orange { background: var(--orange); box-shadow: 0 5px 0 var(--orange-d); }
-  .btn.soon { background:#ffb35c; box-shadow: 0 5px 0 var(--orange-d); }
+  .btn.orange:hover { box-shadow: 0 7px 0 var(--orange-d); }
 
-  section { padding: 28px 0; }
-  h2 { font-family:'Lilita One',sans-serif; font-size: clamp(30px, 4vw, 40px); margin: 12px 0 6px; text-align:center; }
-  .sub { text-align:center; color: var(--soft); margin: 0 auto 22px; max-width: 640px; line-height:1.5; }
-  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
-  .card { background: var(--card); border: 4px solid #fff; border-radius: 26px; box-shadow: 0 6px 0 var(--lip), 0 12px 20px rgba(138,90,48,.15);
-          padding: 22px; display:flex; flex-direction:column; gap: 10px; }
-  .card h3 { margin: 2px 0 0; font-size: 22px; }
-  .card p { margin: 0; color: var(--soft); line-height: 1.5; }
-  .card ul { margin: 2px 0 0; padding-left: 20px; color: var(--soft); line-height: 1.6; }
-  .apps .card { align-items:center; text-align:center; }
-  .apps img.icon { width: 112px; height: 112px; border-radius: 26px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,.15); }
-  .kind { font-size: 13px; font-weight: 700; color:#fff; background: var(--muted); border-radius: 12px; padding: 2px 10px; }
+  /* Tilted scrolling ribbon */
+  .ribbon { background: var(--brown); color: #fff; transform: rotate(-2deg); margin: 10px -20px 30px; padding: 12px 0; overflow: hidden;
+            box-shadow: 0 6px 0 rgba(123,74,42,.25); }
+  .ribbon .track { display:flex; width: max-content; animation: slide 28s linear infinite; }
+  .ribbon span { font-family:'Lilita One',sans-serif; font-size: 22px; letter-spacing: 1px; padding: 0 18px; white-space: nowrap; }
+  .ribbon span.star { color: var(--yellow); padding: 0; }
+  @keyframes slide { to { transform: translateX(-50%); } }
 
+  section { padding: 30px 0; }
+  h2 { font-family:'Lilita One',sans-serif; font-size: clamp(32px, 4.4vw, 46px); margin: 12px 0 6px; text-align:center; }
+  .sub { text-align:center; color: var(--soft); margin: 0 auto 26px; max-width: 640px; line-height:1.5; }
 
-  form { max-width: 640px; margin: 0 auto; background: var(--card); border: 4px solid #fff; border-radius: 26px; box-shadow: 0 6px 0 var(--lip);
-         padding: 22px; display:grid; gap: 14px; }
+  /* Lost: the newest game, a dark radio panel */
+  .featured { position: relative; display:grid; grid-template-columns: 220px minmax(0, 1fr); gap: 34px; align-items:center;
+              background: var(--night); color: var(--paper); border-radius: 34px; padding: 34px 38px; margin-bottom: 26px; overflow: hidden;
+              border: 4px solid #fff; box-shadow: 0 8px 0 #2a211b, 0 22px 40px rgba(20,12,4,.35); }
+  .featured::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.08;
+              background: repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 3px); animation: scan 6s linear infinite; }
+  .featured::after { content:""; position:absolute; inset:-50%; pointer-events:none; opacity:.05;
+              background: radial-gradient(circle, #fff 1px, transparent 1.5px) 0 0/5px 5px; animation: grain .5s steps(4) infinite; }
+  @keyframes scan { to { background-position: 0 60px; } }
+  @keyframes grain { 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } }
+  .lost-art { position: relative; width: 220px; height: 220px; display:grid; place-items:center; }
+  .lost-art img { width: 180px; height: 180px; border-radius: 40px; object-fit: cover; position: relative; z-index: 1;
+                  box-shadow: 0 0 0 4px #fff, 0 0 40px rgba(232,166,87,.55); animation: glow 3s ease-in-out infinite alternate; }
+  @keyframes glow { to { box-shadow: 0 0 0 4px #fff, 0 0 70px rgba(232,166,87,.9); } }
+  .wave { position:absolute; inset: 20px; border: 2px solid var(--amber); border-radius: 50%; opacity: 0; animation: wave 3s ease-out infinite; }
+  .wave:nth-child(2) { animation-delay: 1s; } .wave:nth-child(3) { animation-delay: 2s; }
+  @keyframes wave { from { transform: scale(.7); opacity: .8; } to { transform: scale(1.35); opacity: 0; } }
+  .featured .tags { display:flex; gap: 8px; flex-wrap: wrap; align-items:center; }
+  .tag { font-size: 13px; font-weight: 700; border-radius: 12px; padding: 3px 11px; }
+  .tag.new { background: var(--orange); color: #fff; animation: blink 1.6s steps(2) infinite; }
+  .tag.kind { background: var(--line); color: var(--paper); }
+  @keyframes blink { 50% { background: var(--pink); } }
+  .featured h3 { margin: 12px 0 4px; font-family:'Lilita One',sans-serif; font-weight: 400; font-size: clamp(30px, 4vw, 42px); color: #fff; letter-spacing: .5px; }
+  .typed { font-family:'Courier Prime', monospace; color: var(--amber); font-size: 19px; min-height: 1.5em; margin: 0 0 10px; }
+  .typed::after { content: "▍"; animation: blink2 1s steps(2) infinite; }
+  @keyframes blink2 { 50% { opacity: 0; } }
+  .featured p.more { margin: 0 0 18px; color: #b8b4ac; line-height: 1.55; max-width: 560px; }
+  /* Radio dial: the needle searches, then settles on 91.5 */
+  .dial { position: relative; height: 34px; max-width: 420px; margin: 0 0 22px; border: 2px solid var(--line); border-radius: 10px; background: var(--panel);
+          font-family:'Courier Prime', monospace; font-size: 11px; color: #8a8f98; overflow: hidden; }
+  .dial .ticks { position:absolute; inset: 0 8px; display:flex; justify-content:space-between; align-items:flex-end; padding-bottom: 4px; }
+  .dial .ticks i { width: 1px; height: 8px; background: #8a8f98; }
+  .dial .ticks i:nth-child(5n+1) { height: 14px; }
+  .dial .nums { position:absolute; inset: 3px 8px auto; display:flex; justify-content:space-between; }
+  .dial .needle { position:absolute; top: 0; bottom: 0; width: 3px; background: var(--amber); box-shadow: 0 0 10px var(--amber);
+                  left: 8%; animation: tune 7s cubic-bezier(.6,0,.3,1) infinite; }
+  @keyframes tune { 0% { left: 6%; } 25% { left: 78%; } 45% { left: 22%; } 60%,90% { left: 49%; } 100% { left: 6%; } }
+  .btn.amber { background: var(--amber); color: var(--night); border-color: #fff; box-shadow: 0 5px 0 #8a5a1c; }
+  .btn.amber:hover { box-shadow: 0 7px 0 #8a5a1c; }
+
+  /* The other games */
+  .grid { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; perspective: 900px; }
+  .card { position: relative; background: var(--card); border: 4px solid #fff; border-radius: 28px; padding: 22px 18px;
+          box-shadow: 0 6px 0 var(--lip), 0 12px 20px rgba(138,90,48,.15); display:flex; flex-direction:column; align-items:center; text-align:center; gap: 10px;
+          transform-style: preserve-3d; transition: transform .2s ease-out, box-shadow .2s; overflow: hidden; }
+  .card::after { content:""; position:absolute; top:0; left:-60%; width: 40%; height: 100%; pointer-events:none;
+                 background: linear-gradient(100deg, transparent, rgba(255,255,255,.7), transparent); transform: skewX(-18deg); transition: left .6s; }
+  .card:hover::after { left: 130%; }
+  .card:hover { box-shadow: 0 10px 0 var(--lip), 0 22px 30px rgba(138,90,48,.22); }
+  .card img.icon { width: 104px; height: 104px; border-radius: 26px; object-fit: cover; box-shadow: 0 6px 14px rgba(0,0,0,.18); transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+  .card:hover img.icon { transform: translateY(-6px) rotate(-6deg) scale(1.06); }
+  .card .kind { font-size: 13px; font-weight: 700; color:#fff; background: var(--muted); border-radius: 12px; padding: 2px 10px; }
+  .card h3 { margin: 2px 0 0; font-size: 21px; line-height: 1.2; min-height: 2.4em; display:flex; align-items:center; }
+  .card p { margin: 0; color: var(--soft); line-height: 1.5; flex-grow: 1; font-size: 15.5px; }
+  .card .btn { width: 100%; text-align: center; white-space: nowrap; font-size: 15px; padding: 12px 10px; margin-top: 6px; }
+
+  /* Things fade up as they scroll into view */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.9,.3,1.2); transition-delay: var(--delay, 0s); }
+  .reveal.in { opacity: 1; transform: none; }
+  .card.reveal.in { transition: opacity .7s ease var(--delay, 0s), transform .2s ease-out, box-shadow .2s; }
+
+  form { max-width: 640px; margin: 0 auto; background: var(--card); border: 4px solid #fff; border-radius: 28px; box-shadow: 0 6px 0 var(--lip), 0 14px 26px rgba(138,90,48,.15);
+         padding: 24px; display:grid; gap: 14px; }
   .row { display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   label { font-weight: 600; display:block; margin-bottom: 6px; }
-  input, select, textarea { width:100%; font: inherit; color: var(--brown); padding: 12px 14px; border-radius: 14px; border: 2px solid #ead8bf; background:#fff; }
-  input:focus, select:focus, textarea:focus { outline: 3px solid #ffc933; border-color: #ffc933; }
+  input, select, textarea { width:100%; font: inherit; color: var(--brown); padding: 12px 14px; border-radius: 14px; border: 2px solid #ead8bf; background:#fff; transition: border-color .2s, box-shadow .2s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--yellow); box-shadow: 0 0 0 4px rgba(255,201,51,.35); }
   textarea { min-height: 130px; resize: vertical; }
   .hp { position:absolute; left:-9999px; }
   .note { color: var(--muted); font-size: 14px; margin: 0; text-align: center; }
 
-  footer { text-align:center; color: var(--muted); padding: 28px 0 40px; font-size: 15px; }
+  footer { text-align:center; color: var(--muted); padding: 34px 0 44px; font-size: 15px; }
   footer a { color: var(--muted); }
-  @media (max-width: 560px) { .row { grid-template-columns: 1fr; } nav ul { gap: 12px; font-size: 15px; } }
+
+
+  /* ---- Game layer: XP (scroll) bar, level badges, confetti ---- */
+           font-weight: 700; font-size: 16px; box-shadow: 0 3px 0 rgba(123,74,42,.3); }
+  .xp { position: absolute; left: 0; right: 0; bottom: -2px; height: 6px; background: rgba(123,74,42,.12); }
+  .xp i { display:block; height: 100%; width: 0; background: linear-gradient(90deg, var(--green), var(--yellow), var(--orange)); border-radius: 0 6px 6px 0;
+          transition: width .15s linear; }
+  .lvl { display:block; width: max-content; margin: 0 auto 2px; font-family:'Lilita One',sans-serif; font-size: 15px; letter-spacing: 2px; color:#fff;
+         background: var(--brown); padding: 4px 14px 3px; border-radius: 10px; transform: rotate(-3deg); box-shadow: 0 3px 0 rgba(123,74,42,.3); }
+  #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 65; }
+  @media (max-width: 960px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 720px) {
+    .featured { grid-template-columns: minmax(0, 1fr); justify-items:center; text-align:center; padding: 28px 20px; gap: 16px; }
+    .featured .tags { justify-content:center; }
+    .dial { margin: 0 auto 20px; }
+    .featured .btn { width: 100%; text-align:center; }
+    .lost-art { width: 180px; height: 180px; } .lost-art img { width: 150px; height: 150px; border-radius: 34px; }
+    .floater.far { display:none; }
+  }
+  @media (max-width: 560px) {
+    .row { grid-template-columns: 1fr; } nav ul a { padding: 6px 8px; font-size: 14px; }
+    nav .wrap { flex-wrap: nowrap; } .logo { font-size: 23px; } nav ul { gap: 0; flex-wrap: nowrap; }
+    .grid { grid-template-columns: minmax(0, 1fr); } .card h3 { min-height: 0; }
+    header.hero { padding: 56px 0 40px; }
+    .floater { display: none; }   /* no room around the title on phones; the sparkles stay */
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
 </style>
 </head>
 <body>
+<div class="sky" aria-hidden="true"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div></div>
+
 <nav aria-label="Main">
   <div class="wrap">
     <a class="logo" href="#top">JNK <span>Labs</span></a>
     <ul>
-      <li><a href="#apps">Apps &amp; Games</a></li>
+      <li><a href="#apps">Games &amp; Apps</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
+  <div class="xp" aria-hidden="true"><i id="xpFill"></i></div>
 </nav>
 
-<main id="top" class="wrap">
+<main id="top">
   <header class="hero">
-    <h1 class="brand">JNK <span>Labs</span></h1>
-    <p class="lead">We make <b>fun mobile games</b> and <b>useful apps</b> for Android.
-      Friendly, polished and made with care.</p>
-    <div class="ctas">
-      <a class="btn" href="#apps">See our games &amp; apps</a>
-      <a class="btn orange" href="#contact">Contact us</a>
+    <div class="floaters" aria-hidden="true">
+      <div class="floater" style="--x:7%;--y:12%;--s:84px;--r:-8deg;--d:3.2s"><img src="img/lost-icon.png" alt=""></div>
+      <div class="floater far" style="--x:16%;--y:62%;--s:64px;--r:6deg;--d:2.7s"><img src="img/painttheart-icon.png" alt=""></div>
+      <div class="floater" style="--x:84%;--y:10%;--s:76px;--r:9deg;--d:3.6s"><img src="img/ringunlock-icon.png" alt=""></div>
+      <div class="floater far" style="--x:78%;--y:60%;--s:62px;--r:-7deg;--d:2.9s"><img src="img/luttapi.png" alt=""></div>
+      <div class="floater far" style="--x:3%;--y:84%;--s:50px;--r:10deg;--d:3.4s"><img src="img/sync.png" alt=""></div>
+      <div class="sparkle" style="left:28%;top:14%"></div>
+      <div class="sparkle" style="left:70%;top:30%;animation-delay:.8s"></div>
+      <div class="sparkle" style="left:60%;top:82%;animation-delay:1.5s"></div>
+      <div class="sparkle" style="left:33%;top:76%;animation-delay:2s"></div>
+    </div>
+    <div class="wrap">
+      <h1 class="brand" aria-label="JNK Labs"><span aria-hidden="true"><span class="ch" style="--i:0">J</span><span class="ch" style="--i:1">N</span><span class="ch" style="--i:2">K</span><span class="gap"></span><span class="ch y" style="--i:3">L</span><span class="ch y" style="--i:4">a</span><span class="ch y" style="--i:5">b</span><span class="ch y" style="--i:6">s</span></span></h1>
+      <p class="lead">We make <b>fun mobile games</b> and <b>useful apps</b> for Android.
+        Friendly, polished and made with care.</p>
+      <div class="ctas">
+        <a class="btn" href="#apps">See our games &amp; apps</a>
+        <a class="btn orange" href="#contact">Contact us</a>
+      </div>
     </div>
   </header>
 
+  <div class="ribbon" aria-hidden="true"><div class="track">
+    <span>Puzzle games</span><span class="star">★</span><span>Story games</span><span class="star">★</span><span>Action games</span><span class="star">★</span><span>Useful apps</span><span class="star">★</span><span>Free on Google Play</span><span class="star">★</span><span>Made with care</span><span class="star">★</span>
+    <span>Puzzle games</span><span class="star">★</span><span>Story games</span><span class="star">★</span><span>Action games</span><span class="star">★</span><span>Useful apps</span><span class="star">★</span><span>Free on Google Play</span><span class="star">★</span><span>Made with care</span><span class="star">★</span>
+  </div></div>
+
+  <div class="wrap">
   <section id="apps" class="apps" aria-labelledby="apps-title">
-    <h2 id="apps-title">Our games &amp; apps</h2>
-    <p class="sub">Free on Google Play.</p>
-    <div class="grid">
-      <article class="card">
-        <img class="icon" src="img/lost-icon.png" alt="Lost: Signal 91.5 app icon" width="112" height="112" loading="lazy">
-        <span class="kind">Story puzzle game</span>
+    <h2 id="apps-title" class="reveal"><span class="lvl">LEVEL 1</span>Our games &amp; apps</h2>
+    <p class="sub reveal">Free on Google Play.</p>
+
+    <article class="featured reveal">
+      <div class="lost-art"><span class="wave"></span><span class="wave"></span><span class="wave"></span>
+        <img src="img/lost-icon.png" alt="Lost: Signal 91.5 app icon" width="180" height="180" loading="lazy"></div>
+      <div>
+        <div class="tags"><span class="tag new">NEW</span><span class="tag kind">Story puzzle game</span></div>
         <h3>Lost: Signal 91.5</h3>
-        <p>A cute puzzle game. Nothing more. Don't tap the radio. There's an old radio in the corner of a cheerful box puzzle game. It isn't part of the game. Probably.</p>
-        <a class="btn" href="https://play.google.com/store/apps/details?id=com.jnklabs.lost&amp;referrer=utm_source%3Dwebsite" rel="noopener">Get it on Google Play</a>
-      </article>
-      <article class="card">
-        <img class="icon" src="img/painttheart-icon.png" alt="Paint the Art app icon" width="112" height="112" loading="lazy">
+        <p class="typed" data-text="A cute puzzle game. Nothing more. Don't tap the radio.">A cute puzzle game. Nothing more. Don't tap the radio.</p>
+        <p class="more">There's an old radio in the corner of a cheerful box puzzle game. It isn't part of the game. Probably. Best with headphones.</p>
+        <div class="dial" aria-hidden="true">
+          <div class="nums"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div>
+          <div class="ticks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="needle"></div>
+        </div>
+        <a class="btn amber" href="https://play.google.com/store/apps/details?id=com.jnklabs.lost&amp;referrer=utm_source%3Dwebsite" rel="noopener">Get it on Google Play</a>
+      </div>
+    </article>
+
+    <div class="grid">
+      <article class="card reveal" style="--delay:0s">
+        <img class="icon" src="img/painttheart-icon.png" alt="Paint the Art app icon" width="104" height="104" loading="lazy">
         <span class="kind">Puzzle game</span>
         <h3>Paint the Art: Color Sort</h3>
-        <p>A calm color sort puzzle: pour the water until every tube holds one color, and each finished tube paints a hidden picture. 100 paintings to bring to life.</p>
+        <p>Sort the colors into tubes, and every tube you finish paints part of a hidden picture. 100 paintings to reveal.</p>
         <a class="btn" href="https://play.google.com/store/apps/details?id=com.jnklabs.paintsort&amp;referrer=utm_source%3Dwebsite" rel="noopener">Get it on Google Play</a>
       </article>
-      <article class="card">
-        <img class="icon" src="img/ringunlock-icon.png" alt="Ring Unlock app icon" width="112" height="112" loading="lazy">
+      <article class="card reveal" style="--delay:.08s">
+        <img class="icon" src="img/ringunlock-icon.png" alt="Ring Unlock app icon" width="104" height="104" loading="lazy">
         <span class="kind">Puzzle game</span>
         <h3>Ring Unlock</h3>
-        <p>Turn the rings, slide the clips off and clear the board. Hundreds of twisty levels with knobs, bombs, gears and metal clips.</p>
+        <p>Turn the rings, slide the clips off and clear the board. Hundreds of twisty levels with knobs, bombs and gears.</p>
         <a class="btn" href="https://play.google.com/store/apps/details?id=com.jnklabs.ringunlock&amp;referrer=utm_source%3Dwebsite" rel="noopener">Get it on Google Play</a>
       </article>
-      <article class="card">
-        <img class="icon" src="img/luttapi.png" alt="Luttapi &amp; Ghosts app icon" width="112" height="112" loading="lazy">
+      <article class="card reveal" style="--delay:.16s">
+        <img class="icon" src="img/luttapi.png" alt="Luttapi &amp; Ghosts app icon" width="104" height="104" loading="lazy">
         <span class="kind">Action game</span>
         <h3>Luttapi &amp; Ghosts</h3>
-        <p>Join Luttapi on a spooky, fun-filled adventure and chase the ghosts away.</p>
+        <p>Join Luttapi on a spooky, fun-filled adventure and chase the ghosts away before they catch you.</p>
         <a class="btn" href="https://play.google.com/store/apps/details?id=com.JNKGAMES.luttapi" rel="noopener">Get it on Google Play</a>
       </article>
-      <article class="card">
-        <img class="icon" src="img/sync.png" alt="SYNC: Anti-Scroll AI News app icon" width="112" height="112" loading="lazy">
+      <article class="card reveal" style="--delay:.24s">
+        <img class="icon" src="img/sync.png" alt="SYNC: Anti-Scroll AI News app icon" width="104" height="104" loading="lazy">
         <span class="kind">News app</span>
         <h3>SYNC: Anti-Scroll AI News</h3>
         <p>Stay informed without the endless scroll: short, focused news, summarised by AI.</p>
@@ -303,10 +459,10 @@
   </section>
 
   <section id="contact" aria-labelledby="contact-title">
-    <h2 id="contact-title">Contact us</h2>
-    <p class="sub">Questions, bug reports, ideas or feedback about our games and apps? We read every message and usually reply within 1–2 working days.</p>
+    <h2 id="contact-title" class="reveal"><span class="lvl">LEVEL 2</span>Contact us</h2>
+    <p class="sub reveal">Questions, bug reports, ideas or feedback about our games and apps? We read every message and usually reply within 1–2 working days.</p>
     <!-- Sends each message to your email through FormSubmit (free, no sign-up). The first message asks you to confirm the address once. -->
-    <form action="https://formsubmit.co/jnklabssupport@gmail.com" method="POST">
+    <form class="reveal" action="https://formsubmit.co/jnklabssupport@gmail.com" method="POST">
       <input type="hidden" name="_subject" value="New message from the JNK Labs website">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_next" value="https://jnklabs.github.io/thanks.html">
@@ -342,14 +498,114 @@
       <p class="note">Or email us at <a href="mailto:jnklabssupport@gmail.com">jnklabssupport@gmail.com</a></p>
     </form>
   </section>
+  </div>
 </main>
 
+<canvas id="fx" aria-hidden="true"></canvas>
 <footer>
   <div class="wrap">
     <p><a href="privacy.html">Privacy Policy</a> · <a href="credits.html">Credits</a> · <a href="https://play.google.com/store/apps/developer?id=JNKAPPS" rel="noopener">JNK Labs on Google Play</a></p>
     <p>© <span id="y">2026</span> JNK Labs</p>
   </div>
 </footer>
-<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+<script>
+(function () {
+  document.getElementById('y').textContent = new Date().getFullYear();
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Fade sections up as they scroll into view.
+  var items = document.querySelectorAll('.reveal');
+  if (still || !('IntersectionObserver' in window)) { items.forEach(function (el) { el.classList.add('in'); }); }
+  else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    items.forEach(function (el) { io.observe(el); });
+  }
+  if (still) return;
+
+  // Lost card: type the hook line, like her messages on the radio.
+  var typed = document.querySelector('.typed');
+  if (typed) {
+    var text = typed.getAttribute('data-text'), n = 0, started = false;
+    var go = function () {
+      if (started) return; started = true; typed.textContent = '';
+      var t = setInterval(function () { typed.textContent = text.slice(0, ++n); if (n >= text.length) clearInterval(t); }, 45);
+    };
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { go(); o.disconnect(); } }, { threshold: 0.6 }).observe(typed);
+    } else go();
+  }
+
+  // Cards tilt toward the pointer (mouse only).
+  if (window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.card').forEach(function (card) {
+      card.addEventListener('pointermove', function (ev) {
+        var r = card.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width - .5, y = (ev.clientY - r.top) / r.height - .5;
+        card.style.transform = 'rotateY(' + (x * 12) + 'deg) rotateX(' + (-y * 12) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('pointerleave', function () { card.style.transform = ''; });
+    });
+    // Floating icons drift a little with the mouse.
+    var hero = document.querySelector('.hero'), fl = document.querySelectorAll('.floater');
+    hero.addEventListener('pointermove', function (ev) {
+      var x = ev.clientX / window.innerWidth - .5, y = ev.clientY / window.innerHeight - .5;
+      fl.forEach(function (f, i) { var k = (i % 3 + 1) * 10; f.style.transform = 'translate(' + (x * k) + 'px,' + (y * k) + 'px)'; });
+    });
+  }
+})();
+</script>
+
+<script>
+(function () {
+  // ---- XP (scroll) bar and confetti (no libraries) ----
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fill = document.getElementById('xpFill');
+  function xp() { var h = document.documentElement.scrollHeight - innerHeight; fill.style.width = (h > 0 ? Math.min(100, scrollY / h * 100) : 100) + '%'; }
+  addEventListener('scroll', xp, { passive: true }); xp();
+  if (still) return;
+
+  var cv = document.getElementById('fx'), cx = cv.getContext('2d'), parts = [], running = false;
+  function size() { var d = window.devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; cx.setTransform(d, 0, 0, d, 0, 0); }
+  size(); addEventListener('resize', size);
+  var colors = ['#ffc933', '#ff8f3a', '#5cc93c', '#3e9bef', '#ff6f91', '#9c6bf2'];
+  function burst(x, y, n, power) {
+    for (var i = 0; i < n; i++) {
+      var a = Math.random() * Math.PI * 2, v = (Math.random() * .6 + .4) * power;
+      parts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - power * .5, r: Math.random() * 5 + 3, rot: Math.random() * 6,
+                   vr: Math.random() * .3 - .15, c: colors[i % colors.length], life: 1, sq: Math.random() < .5 });
+    }
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+  function tick() {
+    cx.clearRect(0, 0, cv.width, cv.height);
+    parts = parts.filter(function (p) { return p.life > 0; });
+    parts.forEach(function (p) {
+      p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life -= .012;
+      cx.save(); cx.globalAlpha = Math.max(p.life, 0); cx.translate(p.x, p.y); cx.rotate(p.rot); cx.fillStyle = p.c;
+      if (p.sq) cx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); else { cx.beginPath(); cx.arc(0, 0, p.r * .7, 0, 7); cx.fill(); }
+      cx.restore();
+    });
+    if (parts.length) requestAnimationFrame(tick); else { running = false; cx.clearRect(0, 0, cv.width, cv.height); }
+  }
+
+  // Tap a letter of "JNK Labs": it jumps and pops a little confetti.
+  document.querySelectorAll('.brand .ch').forEach(function (ch) {
+    ch.addEventListener('click', function () {
+      var r = ch.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 3, 18, 7);
+      ch.style.animation = 'none'; void ch.offsetWidth; ch.style.animation = 'wiggle .5s ease';
+    });
+  });
+
+  // Play buttons: a confetti pop before Google Play opens.
+  document.querySelectorAll('a.btn[href*="play.google.com"]').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      if (ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.button) return;
+      ev.preventDefault(); var r = a.getBoundingClientRect(); burst(r.left + r.width / 2, r.top, 60, 11);
+      setTimeout(function () { location.href = a.href; }, 450);
+    });
+  });
+})();
+</script>
 </body>
 </html>
