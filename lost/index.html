@@ -29,6 +29,7 @@
     <h1>Lost</h1>
     <p>Opening Google Play…</p>
     <a class="btn" id="go" href="https://play.google.com/store/apps/details?id=com.jnklabs.lost">Get it on Google Play</a>
+    <p id="tip" style="display:none;font-size:14px;margin:18px 0 0">Not opening? Tap <b>&#8942;</b> at the top right and choose <b>Open in external browser</b>.</p>
   </main>
 <script>
   // Short link for social posts and ads: jnklabs.github.io/lost/?s=instagram&c=reel
@@ -40,9 +41,18 @@
   var web = 'https://play.google.com/store/apps/details?id=' + id + '&referrer=' + encodeURIComponent(ref);
   document.getElementById('go').href = web;
   if (/android/i.test(navigator.userAgent)) {
-    // Open the Play Store app directly (works from Instagram's in-app browser), fall back to the web page.
-    location.href = 'market://details?id=' + id + '&referrer=' + encodeURIComponent(ref);
-    setTimeout(function () { location.replace(web); }, 1500);
+    // In-app browsers (Instagram, Facebook) often block an automatic jump to another app, but allow it on a tap.
+    // So the button itself opens the Play Store app; the page also tries once by itself and then stays here (no
+    // redirect to the web Play page, which can't install from inside Instagram).
+    var market = 'market://details?id=' + id + '&referrer=' + encodeURIComponent(ref);
+    var intent = 'intent://details?id=' + id + '&referrer=' + encodeURIComponent(ref) +
+      '#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=' + encodeURIComponent(web) + ';end';
+    var inApp = /Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent);
+    var go = document.getElementById('go');
+    go.href = inApp ? market : intent;
+    document.querySelector('.card p').textContent = 'Tap the button to open Google Play';
+    if (inApp) document.getElementById('tip').style.display = 'block';
+    try { location.href = inApp ? market : intent; } catch (e) {}
   } else {
     location.replace(web);
   }
